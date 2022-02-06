@@ -23,20 +23,33 @@ bool remove( Node<T>* &nodePtr , T target )
 	Node<T> *currPtr = nodePtr; //headPtr
 	Node<T> *prePtr = nullptr;
 	
-	if (currPtr->getItem() == target) 
-	{
-	  // cout << currPtr->getItem() <<endl;
-	    prePtr = currPtr;
-	   if(currPtr->getNext() !=nullptr)
-	     prePtr->setNext(currPtr->getNext());   
-	   currPtr = nullptr;
-	   delete currPtr;
+	// if (currPtr->getItem() == target) 
+	// {
+	//   // cout << currPtr->getItem() <<endl;
+	//     prePtr = currPtr;
+	//    if(currPtr->getNext() !=nullptr)
+	//      prePtr->setNext(currPtr->getNext());   
+	//    currPtr = nullptr;
+	//    delete currPtr;
 	      
 	   
-	   return true;
-	} else {
-	   currPtr = currPtr->getNext();
-	   return remove(currPtr, target);
+	//    return true;
+	// } else {
+	//    currPtr = currPtr->getNext();
+	//    return remove(currPtr, target);
+	// }
+	// return false;
+	if(currPtr->getItem() == target){
+		 //if the target is matched to target, then set the number as INT_MIN
+		 currPtr->setItem(INT_MIN);
+		return true;
+	}else if (currPtr->getNext() == nullptr){
+		//in case the target does not match any number in the array
+		return true;
+	}else{
+		//else set prePtr as the next pointer
+		prePtr = currPtr->getNext();
+		return remove(prePtr, target);
 	}
 	return false;
 }
@@ -64,14 +77,14 @@ int main()
 {
 	// (1) Declare an empty linked list of unsigned values
 	//     based on the Node class and call it myList
-	std::cout << "start here" << std::endl;
+	// std::cout << "start here" << std::endl;
    Node<int> *myList = nullptr;
    vector<int> remList;
 	
 	// (2) Read in values from standard input. Non-negative
 	//     values are inserted into myList and a negative
 	//     value terminates input.
-	int input, temp;
+	int input;
 	int num_remove;
  	input=0;
 	
@@ -123,7 +136,9 @@ int main()
    intArray.clear();
    display(myList);
    for(int i= intArray.size()-1; i>=0;i--){
-      cout << intArray[i] << " ";
+      //if the number is bigger thatn INT_MIN
+	  if( intArray[i]>INT_MIN)
+      	cout << intArray[i] << " ";
    }
    cout << endl;
 
